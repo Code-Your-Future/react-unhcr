@@ -4,25 +4,26 @@ import logo from './images/cyf.png';
 import './styles/App.css';
 import CountriesList from './components/CountriesList';
 import CountryDetails from './components/CountryDetails';
+import ListOfYears from './components/ListOfYears';
 import Display from './components/Display';
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       countriesList: [],
+      listOfYears:[],
       countryData: {},
       countryCode: 'TUR',
+      Year: '2013',
       displayDetail:false
     }
     this.hundleCountryCode=this.hundleCountryCode.bind(this);
+    this.hundleYear=this.hundleYear.bind(this);
 
-  }
+}
+  
   render() {
-    const hundleClick =()=>{
-      this.getCountryStatistics(this.state.countryCode,'2013');
-      this.setState({ viewCountryDetail: true })
-      
-    }
     return (
       <div className="App">
         <div className="app-header">
@@ -32,8 +33,9 @@ class App extends Component {
         <div className="app-search-box">
           <div>
             <CountriesList countries={this.state.countriesList}  defalultValue={this.state.countryCode} getCountryCode={this.hundleCountryCode}/>
+            <ListOfYears defalutYear={this.state.Year} listOfYear={this.state.listOfYears} getYear={this.hundleYear} />
           </div>
-          <button  onClick={hundleClick} type="submit">Retrieve Country statistics</button>
+          <button  onClick={this.hundleClick.bind(this)} type="submit">Retrieve Country statistics</button>
           <Display if={this.state.displayDetail}>
             <CountryDetails CountryDetail={this.state.countryData}/>
           </Display>          
@@ -41,13 +43,23 @@ class App extends Component {
       </div>
     );
   }
+  
+  hundleClick (){
+      this.getCountryStatistics(this.state.countryCode,this.state.Year);
+      this.state.countryData ? this.setState({ displayDetail: true }) : this.setState({ displayDetail: false })
+  }
 
   hundleCountryCode(Code){
     this.setState({ countryCode: Code });
   }
 
+  hundleYear(year){
+    this.setState({ Year: year});
+  }
+
   componentDidMount() {
       this.getCountriesList();
+      this.getYears();
   }
   getCountriesList() {
     fetch('http://data.unhcr.org/api/stats/country_of_residence.json')
@@ -55,6 +67,13 @@ class App extends Component {
       .then(data => {
         this.setState({ countriesList: data } );
       });
+  }
+  getYears(){
+    fetch('http://data.unhcr.org/api/stats/time_series_years.json')
+    .then(response => response.json())
+    .then(data=>{
+      this.setState({listOfYears: data })
+    });
   }
   getCountryStatistics(countryCode, year) {
     const url = 'http://data.unhcr.org/api/stats/demographics.json?country_of_residence=' + countryCode + '&year=' + year;
@@ -64,7 +83,7 @@ class App extends Component {
     .then(data => {
       //The data comes back as an array, we take the first element of the array as it contains our country data
       this.setState({ countryData: data[0]})
-    })
+    });
   }
 }
 

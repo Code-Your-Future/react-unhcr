@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
 
 class CountriesList extends Component {
+
+  constructor(){
+    super();
+    this.onChnageHundler=this.onChnageHundler.bind(this);
+  }
+  
+  onChnageHundler(event){
+    this.props.getCountryCode(event.target.value);
+  }
+
   render() {
     const countries = this.props.countries;
-    return (<select>
+    const defaultV=this.props.defalultValue;
+    return (<select value={defaultV} onChange={this.onChnageHundler} >
       {
         countries.map((country, index) => {
           return(
@@ -16,5 +27,6 @@ class CountriesList extends Component {
     </select>)
   }
 }
+
 
 export default CountriesList;

@@ -7,7 +7,7 @@ class CountriesList extends Component {
       {
         countries.map((country, index) => {
           return(
-            <option value={country.country_of_residence} key={index}>
+            <option value={country.country_of_residence} key={index} onChange={this.props.selectedCountr}>
               {country.country_of_residence_en}
             </option>
           )

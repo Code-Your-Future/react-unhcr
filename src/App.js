@@ -15,16 +15,18 @@ class App extends Component {
       yearsList: []
     }
   }
+  // handle the coutry changes
   onCountryChange = (event) => {
     if(event.target.value === '-1') return ;
     this.setState({ selectedCountry: event.target.value });
     console.log(this.state.selectedCountry);
   }
+  // handle the years changes
   onChangeYear = (event) => {
     this.setState({ selectedYear: event.target.value });
     console.log(this.state.selectedCountry);
   }
-
+  // when clicking the button
   onSubmit  = () => {
     if(!this.state.selectedCountry || !this.state.selectedYear) return;
     this.getCountryStatistics(this.state.selectedCountry, this.state.selectedYear)
@@ -50,18 +52,21 @@ class App extends Component {
       </div>
     );
   }
+
   componentDidMount() {
       this.getCountriesList();
       // this.getCountryStatistics('TUR', '2013');
       this.getYear();
   }
+
   getCountriesList() {
     fetch('http://data.unhcr.org/api/stats/country_of_residence.json')
       .then(response => response.json())
       .then(data => {
         this.setState({ countriesList: data } );
       });
-  }
+  }// Countries List API
+
   getCountryStatistics(countryCode, year) {
     const url = 'http://data.unhcr.org/api/stats/demographics.json?country_of_residence=' + countryCode + '&year=' + year;
 
@@ -71,7 +76,7 @@ class App extends Component {
       //The data comes back as an array, we take the first element of the array as it contains our country data
       this.setState({ countryData: data[0]})
     })
-  }
+  }// Countries Result API :)
 
   getYear() {
     fetch('http://data.unhcr.org/api/stats/time_series_years.json')
@@ -81,7 +86,7 @@ class App extends Component {
     .then((data) => {
       this.setState({ yearsList: data})
     })
-  }
+  }// year list API
 
 }// class ends
 

@@ -4,7 +4,8 @@ class CountriesList extends Component {
   render() {
     const countries = this.props.countries;
     return (<select onChange={this.props.onCountryChange}>
-      <option value="-1" key="-1">pleas select the country</option>
+      {/*stop the funciton from running in the onCountryChange*/}
+      <option value="-1" key="-1">please select the country</option>
       {
         countries.map((country, index) => {
           return(

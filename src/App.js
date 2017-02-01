@@ -4,6 +4,7 @@ import logo from './images/cyf.png';
 import './styles/App.css';
 import CountriesList from './components/CountriesList';
 import CountriesDetail from './components/CountriesDetails';
+import YearsList from './components/YearsList';
 
 class App extends Component {
   constructor(props) {
@@ -11,15 +12,23 @@ class App extends Component {
     this.state = {
       countriesList: [],
       countryData: {},
+      yearsList: []
     }
   }
   onCountryChange = (event) => {
+    if(event.target.value === '-1') return ;
     this.setState({ selectedCountry: event.target.value });
     console.log(this.state.selectedCountry);
   }
-  // onSubmit  = () => {
-  //   this.getCountryStatistics(this.state.selectedCountry, '2013')
-  // }
+  onChangeYear = (event) => {
+    this.setState({ selectedYear: event.target.value });
+    console.log(this.state.selectedCountry);
+  }
+
+  onSubmit  = () => {
+    if(!this.state.selectedCountry || !this.state.selectedYear) return;
+    this.getCountryStatistics(this.state.selectedCountry, this.state.selectedYear)
+  }
   render() {
     return (
       <div className="App">
@@ -29,10 +38,11 @@ class App extends Component {
         </div>
         <div className="app-search-box">
           <div>
-            <CountriesList countries={this.state.countriesList} selectedCountry={this.onCountryChange} />
+            <CountriesList countries={this.state.countriesList} onCountryChange={this.onCountryChange}/>
+            <YearsList years={this.state.yearsList} onChangeYear={this.onChangeYear}/>
           </div>
           <div>
-            <button onClick={()=> this.onSubmit()} type="submit">Retrieve Country statistics</button>
+            <button onClick={this.onSubmit} type="submit">Retrieve Country statistics</button>
           </div>
         </div>
         {/* here I take the component*/}
@@ -42,7 +52,8 @@ class App extends Component {
   }
   componentDidMount() {
       this.getCountriesList();
-      this.getCountryStatistics('TUR', '2013');
+      // this.getCountryStatistics('TUR', '2013');
+      this.getYear();
   }
   getCountriesList() {
     fetch('http://data.unhcr.org/api/stats/country_of_residence.json')
@@ -61,6 +72,17 @@ class App extends Component {
       this.setState({ countryData: data[0]})
     })
   }
-}
+
+  getYear() {
+    fetch('http://data.unhcr.org/api/stats/time_series_years.json')
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      this.setState({ yearsList: data})
+    })
+  }
+
+}// class ends
 
 export default App;

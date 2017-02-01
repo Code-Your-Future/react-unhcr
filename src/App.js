@@ -11,16 +11,15 @@ class App extends Component {
     this.state = {
       countriesList: [],
       countryData: {},
-      selectedCountry: ''
     }
   }
-  onConChange = (event) => {
-    this.setState({
-      selectedCountry: event.target.value
-
-    });
+  onCountryChange = (event) => {
+    this.setState({ selectedCountry: event.target.value });
     console.log(this.state.selectedCountry);
   }
+  // onSubmit  = () => {
+  //   this.getCountryStatistics(this.state.selectedCountry, '2013')
+  // }
   render() {
     return (
       <div className="App">
@@ -30,10 +29,10 @@ class App extends Component {
         </div>
         <div className="app-search-box">
           <div>
-            <CountriesList countries={this.state.countriesList} selectedCountr={() => this.onConChange(this)} />
+            <CountriesList countries={this.state.countriesList} selectedCountry={this.onCountryChange} />
           </div>
           <div>
-            <button onClick={()=>alert('Not implemented')} type="submit">Retrieve Country statistics</button>
+            <button onClick={()=> this.onSubmit()} type="submit">Retrieve Country statistics</button>
           </div>
         </div>
         {/* here I take the component*/}
@@ -43,7 +42,7 @@ class App extends Component {
   }
   componentDidMount() {
       this.getCountriesList();
-      this.getCountryStatistics(this.state.selectedCountry, '2013');
+      this.getCountryStatistics('TUR', '2013');
   }
   getCountriesList() {
     fetch('http://data.unhcr.org/api/stats/country_of_residence.json')

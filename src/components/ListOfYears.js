@@ -7,7 +7,7 @@ class ListOfYears extends Component{
 		const defaultYear=this.props.defalutYear;
 
 		return(
-			<select value={defaultYear} onChange={this.onChnageHundler.bind(this)}>
+			<select value={defaultYear} onChange={this.onChnageHundler}>
 			          {   
 			            yearList.map((yearList,index)=>{
 			              return(
@@ -20,7 +20,7 @@ class ListOfYears extends Component{
 			</select>)
 	}
 
-	onChnageHundler(event){
+	onChnageHundler=(event)=>{
     	this.props.getYear(event.target.value);
   	}
 }

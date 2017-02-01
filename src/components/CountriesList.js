@@ -20,8 +20,8 @@ class CountriesList extends Component {
             }
         </select> )
  }
- 
-  onChnageHundler(event){
+
+  onChnageHundler=(event)=>{
     this.props.getCountryCode(event.target.value);
   }
 

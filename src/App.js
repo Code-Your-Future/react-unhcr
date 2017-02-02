@@ -23,6 +23,7 @@ class App extends Component {
       selectedCountry: event.target.value});
   }
   onYearChange = (event) => {
+    if(event.target.value === '-1') return;
     this.setState({
       selectedYear: event.target.value});
   }

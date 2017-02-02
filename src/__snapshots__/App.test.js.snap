@@ -1,0 +1,54 @@
+exports[`test Creates a snapshot test 1`] = `
+<div
+  className="App">
+  <div
+    className="app-header">
+    <img
+      alt="logo"
+      className="App-logo"
+      src="cyf.png" />
+    <h2>
+      UNHCR Data Browser
+    </h2>
+  </div>
+  <div
+    className="app-search-box">
+    <div>
+      <select
+        onChange={[Function]} />
+    </div>
+    <div>
+      <select
+        onChange={[Function]} />
+    </div>
+    <div>
+      <button
+        onClick={[Function]}
+        type="submit">
+        Retrieve Country statistics
+      </button>
+    </div>
+  </div>
+  <div
+    className="app-country-statistics">
+    <div>
+      <strong>
+        Country: 
+      </strong>
+      <br />
+      <strong>
+        Year: 
+      </strong>
+      <br />
+      <strong>
+        Female Refugees: 
+      </strong>
+      <br />
+      <strong>
+        Male Refugees: 
+      </strong>
+      <br />
+    </div>
+  </div>
+</div>
+`;

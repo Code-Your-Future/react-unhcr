@@ -13,19 +13,21 @@ class App extends Component {
       countriesList: [],
       countryData: {},
       yearsList:[],
-      country: 'AFG',
-      year:2000
+      country: null,
+      year:null
     }
   }
   setCountry = (event) => {
+    if(event.target.value === '-1') return ;
     this.setState({country:event.target.value});
     // console.log(this.state.event)
   }
   setYear = (event) => {
+    if(event.target.value === '-1') return ;
     this.setState({year:event.target.value});
   }
   onSubmittion = () => {
-    this.getCountryStatistics(this.state.country, this.state.year);
+    (this.state.country && this.state.year) ? this.getCountryStatistics(this.state.country, this.state.year):this.setState({countryData:false})
   }
   render() {
     return (
@@ -46,7 +48,7 @@ class App extends Component {
           </div>
         </div>
         <div className="app-country-statistics">
-        {this.state.countryData ? <CountryDetails data={this.state.countryData} /> : 'no data'}
+        {this.state.countryData ? <CountryDetails data={this.state.countryData} /> : <p>select country and year</p>}
         </div>
       </div>
     );

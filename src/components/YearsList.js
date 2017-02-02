@@ -5,6 +5,7 @@ class YearsList extends Component {
     const years = this.props.years;
     const func = this.props.whenChange;
     return (<select onChange={func}>
+      <option value="-1" key="-1">please select the year</option>
       {
         years.map((year, index) => {
           return(

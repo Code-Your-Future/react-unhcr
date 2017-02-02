@@ -5,6 +5,7 @@ class CountriesList extends Component {
     const countries = this.props.countries;
     const func = this.props.whenChange;
     return (<select onChange={func}>
+      <option value="-1" key="-1">please select the country</option>
       {
         countries.map((country, index) => {
           return(

@@ -12,9 +12,9 @@ class App extends Component {
     this.state = {
       countriesList: [],
       countryData: {},
-      yearsList: [],
-      selectedYear:null,
-      selectedCountry:null
+      yearsList: []
+      //selectedYear:null,
+      //selectedCountry:null
     }
   }
   onCountryChange = (event)=> {
@@ -26,7 +26,7 @@ class App extends Component {
     this.setState({
       selectedYear: event.target.value});
   }
-  onSubmitCountry = (event)=> {
+  onSubmitCountry = ()=> {
     this.getCountryStatistics(this.state.selectedCountry, this.state.selectedYear);
   }
   render() {
@@ -39,7 +39,7 @@ class App extends Component {
         <div className="app-search-box">
           <div>
             <CountriesList countries={this.state.countriesList} onCountryChange={this.onCountryChange}/>
-            <YearsList years={this.state.yearsList} onYearChange={this.onYearChange} />
+            <YearsList years={this.state.yearsList} onYearChange={this.onYearChange}/>
           </div>
           <div>
             <button onClick={this.onSubmitCountry} type="submit">Retrieve Country statistics</button>
@@ -54,6 +54,7 @@ class App extends Component {
   componentDidMount() {
       this.getCountriesList();
       this.getCountryStatistics('TUR', '2013');
+      this.getYearsList();
   }
   getCountriesList() {
     fetch('http://data.unhcr.org/api/stats/country_of_residence.json')
@@ -62,9 +63,15 @@ class App extends Component {
         this.setState({ countriesList: data } );
       });
   }
+  getYearsList() {
+    fetch('http://data.unhcr.org/api/stats/time_series_years.json')
+      .then(response => response.json())
+      .then(data => {
+        this.setState({ yearsList: data } );
+      });
+  }
   getCountryStatistics(countryCode, year) {
     const url = 'http://data.unhcr.org/api/stats/demographics.json?country_of_residence=' + countryCode + '&year=' + year;
-
     fetch(url)
     .then(response => response.json())
     .then(data => {

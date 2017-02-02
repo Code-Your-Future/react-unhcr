@@ -3,11 +3,12 @@ import React, { Component } from 'react';
 class CountriesList extends Component {
   render() {
     const countries = this.props.countries;
-    return (<select>
+    return (<select onChange={this.props.onCountryChange}>
+      <option value="-1" key="-1"> Select the Country</option>
       {
         countries.map((country, index) => {
           return(
-            <option value={country.country_of_residence} key={index}>
+            <option value={country.country_of_residence} key={index} >
               {country.country_of_residence_en}
             </option>
           )
